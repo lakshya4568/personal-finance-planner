@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { AddBudgetModal } from "@/components/forms/AddBudgetModal";
 import { formatMoney } from "@/lib/utils";
 import { budgets as budgetsApi } from "@/lib/api";
 import type { Budget } from "@/types";
@@ -41,6 +42,7 @@ const barColors = [
 export function BudgetPage() {
   const [budgetsList, setBudgetsList] = useState<Budget[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
     budgetsApi
@@ -63,11 +65,20 @@ export function BudgetPage() {
         <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">
           Budget Overview
         </h2>
-        <button className="pill-btn flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-zinc-300 cursor-pointer">
+        <button
+          onClick={() => setShowAdd(true)}
+          className="pill-btn flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-zinc-300 cursor-pointer"
+        >
           <Plus className="h-3.5 w-3.5" />
           New Budget
         </button>
       </div>
+
+      <AddBudgetModal
+        open={showAdd}
+        onClose={() => setShowAdd(false)}
+        onCreated={(budget) => setBudgetsList((prev) => [...prev, budget])}
+      />
 
       {loading ? (
         <GlassCard delay={0}>

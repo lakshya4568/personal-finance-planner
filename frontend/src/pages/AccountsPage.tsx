@@ -10,6 +10,7 @@ import {
   Archive,
 } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { AddAccountModal } from "@/components/forms/AddAccountModal";
 import { accounts as accountsApi } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import type { Account, AccountType } from "@/types";
@@ -73,6 +74,7 @@ const MOCK_ACCOUNTS: Account[] = [
 export function AccountsPage() {
   const [accountsList, setAccountsList] = useState<Account[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
     accountsApi
@@ -95,11 +97,20 @@ export function AccountsPage() {
         <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">
           Accounts
         </h2>
-        <button className="pill-btn flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-zinc-300 cursor-pointer">
+        <button
+          onClick={() => setShowAdd(true)}
+          className="pill-btn flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-zinc-300 cursor-pointer"
+        >
           <Plus className="h-3.5 w-3.5" />
           Add Account
         </button>
       </div>
+
+      <AddAccountModal
+        open={showAdd}
+        onClose={() => setShowAdd(false)}
+        onCreated={(account) => setAccountsList((prev) => [...prev, account])}
+      />
 
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
