@@ -11,3 +11,33 @@ wheels/
 
 # Virtual environments
 .venv
+
+#env
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+
+# Logs
+*.log
+logs/
+
+# Local files
+local/
+tmp/
+temp/
+
+finance_planner.db
+finance_planner.db*
+
+versions/*
